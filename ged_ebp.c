@@ -11,6 +11,7 @@
 #include "ged_ebp.h"
 #include "ged_ebp_parse.h"
 #include "ged_ebp_emit.h"
+#include "gedzip.h"
 #include "pipeline/config.h"
 
 
@@ -140,7 +141,17 @@ void ged_event_stage_stack_free(struct ged_event_stage_stack *x) {
 }
 
 
-void ged551to700(FILE *from, FILE *to) {
+int ged551to700(FILE *from, FILE *to) {
+    // GEDZIP needs the size and CRC of gedcom.ged before its contents
+    FILE *ged = to;
+    if (ged_gedzip) {
+        ged = tmpfile();
+        if (!ged) {
+            fprintf(stderr, "ERROR: unable to create temporary file for GEDZIP\n");
+            return 1;
+        }
+    }
+
     size_t n = (sizeof(ged_pipeline)/sizeof(ged_pipeline[0]));
     struct ged_filter *pipeline = malloc(sizeof(struct ged_filter)*n);
     
@@ -151,7 +162,7 @@ void ged551to700(FILE *from, FILE *to) {
     }
     
     GedEventSourceState *src = gedEventSource_create(from);
-    GedEventSinkState *dst = gedEventSink_create(to);
+    GedEventSinkState *dst = gedEventSink_create(ged);
     struct ged_event_stage_stack *stack = ged_event_stage_stack_create();
 
     GedEvent e;
@@ -185,6 +196,18 @@ void ged551to700(FILE *from, FILE *to) {
     if (e.type == GED_ERROR)
         gedEventSinkFunc(e, dst); // to show error if there is one
 
+    int failed = 0;
+    if (ged_gedzip) {
+        GedZip *zip = gedzip_create(to);
+        if (gedzip_add_stream(zip, "gedcom.ged", ged)) failed = 1;
+        for(int i=0; i<n; i+=1)
+            if (ged_pipeline[i].maker == ged_blob_maker
+            && ged_blob_finish(pipeline[i].state, zip))
+                failed = 1;
+        if (gedzip_finish(zip)) failed = 1;
+        fclose(ged);
+        if (failed) fprintf(stderr, "ERROR: unable to write GEDZIP output\n");
+    }
 
     ged_event_stage_stack_free(stack);
     gedEventSink_free(dst);
@@ -195,6 +218,7 @@ void ged551to700(FILE *from, FILE *to) {
     
     
     free(pipeline);
+    return failed;
 }
 
 
@@ -244,3 +268,5 @@ void changePayloadToDynamic(GedEvent *e, char *val) {
 int ged_few_phrases;
 /** Global flag; if nonzero, compare xrefs case-insensitively */
 int ged_xref_case_insensitive;
+/** Global flag; if nonzero, write a GEDZIP archive instead of a .ged file */
+int ged_gedzip;

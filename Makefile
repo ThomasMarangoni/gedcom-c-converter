@@ -1,6 +1,6 @@
 CC := clang -O2 -pedantic -Wall -Werror
 PIPELINE_C := $(wildcard pipeline/*.c)
-OBJECTS := commandline.o ansel2utf8.o ged_ebp.o ged_ebp_parse.o ged_ebp_emit.o strtrie.o geddate.o gedage.o
+OBJECTS := commandline.o ansel2utf8.o ged_ebp.o ged_ebp_parse.o ged_ebp_emit.o strtrie.o geddate.o gedage.o gedzip.o
 
 .PHONY: all clean distclean
 
@@ -15,7 +15,7 @@ distclean: clean
 ged5to7: $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS)
 
-ged_ebp.o: ged_ebp.c ged_ebp.h pipeline/config.h $(PIPELINE_C)
+ged_ebp.o: ged_ebp.c ged_ebp.h gedzip.h pipeline/config.h $(PIPELINE_C)
 	$(CC) -c -o $@ $<
 
 %.o: %.c %.h

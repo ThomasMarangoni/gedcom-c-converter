@@ -59,7 +59,7 @@ Current status:
         - [x] POSIX-stye `/User/foo` becomes `file:///User/foo`
     - [x] update the `GEDC`.`VERS` to `7.0`
     - [x] (extra) change string-valued `INDI`.`ALIA` into `NAME` with `TYPE` `AKA`
-    - [ ] (5.5) change base64-encoded OBJE into GEDZIP
+    - [x] (5.5) change base64-encoded OBJE into GEDZIP (with `--gedzip`, or a `.gdz` output file)
     - [x] Change any illegal tag `XYZ` into `_EXT_XYZ`
         - checks the tag is a 7.0 tag, and that level-0 tags are record types, but not that each tag is allowed under its superstructure
 - two-pass operations
@@ -88,6 +88,12 @@ file with Visual Studio and build the solution normally.
 
 To run, execute the resulting `ged5to7`.
 Run `ged5to7 --help` for a list of command-line options.
+
+GEDCOM 5.5 files may contain multimedia embedded as `BLOB`s. To extract them,
+write a [GEDZIP](https://gedcom.io/specifications/FamilySearchGEDCOMv7.html#gedzip) archive
+by giving an output file ending in `.gdz` or by using `--gedzip`;
+the GEDCOM data is stored as `gedcom.ged` and each decoded object as `media/blob<n>.<ext>`.
+Without GEDZIP output, `BLOB`s are kept as `_EXT_BLOB` extensions.
 
 # Design Notes
 

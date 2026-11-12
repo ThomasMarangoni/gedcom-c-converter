@@ -42,6 +42,7 @@
 #include "version.c"
 #include "exttags.c"
 #include "noteinline.c"
+#include "blob2zip.c"
 
 #include "event2record.c"
 // #include "noter2s.c" // unfinished
@@ -111,6 +112,9 @@ struct {
 
     // pass 2 assemble parse events into records
     {{0, ged_event2record}, ged_event2recordstate_maker, ged_event2recordstate_freer},
+    // decode 5.5 BLOBs into GEDZIP media files (event2record is
+    // pass-2 only, so pass 1 of this sees events, not records)
+    {{ged_blob1, ged_blob2}, ged_blob_maker, ged_blob_freer},
     // change non-pointer SOUR substructures into pointer to SOUR records
     {{0, ged_sours2r}, ged_longstate_maker, ged_longstate_freer},
     // change non-pointer OBJE substructures into pointer to OBJE records

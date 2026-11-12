@@ -12,21 +12,25 @@ int main(int argc, char *argv[]) {
     int overwrite = 0;
     ged_xref_case_insensitive = 0;
     ged_few_phrases = 0;
+    ged_gedzip = 0;
 
     for(int i=1; i<argc; i+=1) {
         if (!strcmp("-h", argv[i])
         || !strcmp("--help", argv[i])) {
-            fprintf(stderr, "USAGE: %s [options] [infile.ged] [outfile.ged]\n"
+            fprintf(stderr, "USAGE: %s [options] [infile.ged] [outfile.ged|outfile.gdz]\n"
             "where options may be\n"
             "  -h --help        this help message\n"
             "  -f --force       overwrite existing outfile.ged\n"
             "  -x --xreficase   compare xrefs case-insensitively\n"
-            "  -p --fewphrases  omit PHRASE when reasonable payload available\n" , argv[0]);
+            "  -p --fewphrases  omit PHRASE when reasonable payload available\n"
+            "  -z --gedzip      write a GEDZIP archive, extracting embedded BLOB\n"
+            "                   multimedia into it (implied by a .gdz outfile)\n" , argv[0]);
             return 1;
         }
         else if (!strcmp("-f", argv[i]) || !strcmp("--force", argv[i])) overwrite = 1;
         else if (!strcmp("-x", argv[i]) || !strcmp("--xreficase", argv[i])) ged_xref_case_insensitive = 1;
         else if (!strcmp("-p", argv[i]) || !strcmp("--fewphrases", argv[i])) ged_few_phrases = 1;
+        else if (!strcmp("-z", argv[i]) || !strcmp("--gedzip", argv[i])) ged_gedzip = 1;
         else if (in == stdin) {
             in = fopen(argv[i], "rb");
             if (!in) {
@@ -35,6 +39,8 @@ int main(int argc, char *argv[]) {
             }
         }
         else if (out == stdout) {
+            size_t len = strlen(argv[i]);
+            if (len > 4 && !strcmp(".gdz", argv[i] + len - 4)) ged_gedzip = 1;
             out = fopen(argv[i], overwrite ? "wb" : "wxb");
             if (!out) {
                 fprintf(stderr, "ERROR: unable to write to %s\n", argv[i]);
@@ -51,8 +57,7 @@ int main(int argc, char *argv[]) {
         return 5;
     }
 
-    ged551to700(in, out);
-    return 0;
+    return ged551to700(in, out) ? 6 : 0;
 }
 
 

@@ -171,11 +171,17 @@ void changePayloadToDynamic(GedEvent *e, char *val);
 void _show_event(const GedEvent *evt); // debugging helper
 
 #include <stdio.h>
-/** Conversion interface function */
-void ged551to700(FILE *from, FILE *to);
+/**
+ * Conversion interface function. If `ged_gedzip` is set, `to` receives
+ * a GEDZIP archive (which may be written to a non-seekable stream).
+ * Returns 0 on success, nonzero if the output could not be written.
+ */
+int ged551to700(FILE *from, FILE *to);
 
 
 /** Global flag; if nonzero, omit PHRASE when creating ENUMs */
 extern int ged_few_phrases;
 /** Global flag; if nonzero, compare xrefs case-insensitively */
 extern int ged_xref_case_insensitive;
+/** Global flag; if nonzero, write a GEDZIP archive instead of a .ged file */
+extern int ged_gedzip;
