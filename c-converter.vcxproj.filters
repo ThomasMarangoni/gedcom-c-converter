@@ -93,6 +93,9 @@
     <ClCompile Include="pipeline\note2snote.c">
       <Filter>Source Files\pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="pipeline\noteinline.c">
+      <Filter>Source Files\pipeline</Filter>
+    </ClCompile>
     <ClCompile Include="pipeline\noter2s.c">
       <Filter>Source Files\pipeline</Filter>
     </ClCompile>

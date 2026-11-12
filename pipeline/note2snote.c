@@ -2,8 +2,8 @@
  * Simplest way of making 5.5.1 NOTE conform to 7.0 NOTE/SNOTE:
  * all NOTE_RECORD and all NOTE @ptr@ becomes SNOTE instead.
  * 
- * As a future extension, should be replaced with a heuristic method
- * that assumes NOTE_RECORDS pointed to only once are supposed to be inline.
+ * Note records that look like they were meant to be inline have
+ * already been inlined by `noteinline` before this runs.
  */
 
 #include <assert.h>

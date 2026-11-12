@@ -41,6 +41,7 @@
 #include "rela2role.c"
 #include "version.c"
 #include "exttags.c"
+#include "noteinline.c"
 
 #include "event2record.c"
 // #include "noter2s.c" // unfinished
@@ -68,6 +69,9 @@ struct {
     // capitalize tags; GED_ERROR if illegal characters used in tag
     {{ged_tagcase, ged_tagcase}, ged_nostate_maker, ged_nostate_freer},
 
+    // two-pass inlining of note records pointed to by just one NOTE
+    {{ged_noteinline1, ged_noteinline2}, ged_noteinline_maker, ged_noteinline_freer},
+
     // various simple tag renames
     {{0, ged_rename}, ged_longstate_maker, ged_longstate_freer},
     // remove obsolete tags
@@ -92,7 +96,7 @@ struct {
     {{0, ged_exid}, ged_exidstate_maker, ged_exidstate_freer},
     // change RELA to ROLE with PHRASE
     {{0, ged_rela2role}, ged_longstate_maker, ged_longstate_freer},
-    // change RELA to ROLE with PHRASE
+    // change remaining NOTE records and NOTE pointers to SNOTE
     {{0, ged_note2snote}, ged_longstate_maker, ged_longstate_freer},
 
     // not technically 5→7, this is to fix a common misuse of ALIA

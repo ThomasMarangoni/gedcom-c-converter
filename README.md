@@ -63,7 +63,8 @@ Current status:
     - [x] Change any illegal tag `XYZ` into `_EXT_XYZ`
         - checks the tag is a 7.0 tag, and that level-0 tags are record types, but not that each tag is allowed under its superstructure
 - two-pass operations
-    - [ ] use heuristic to change some pointer-`NOTE` to nested-`NOTE` instead of `SNOTE`
+    - [x] use heuristic to change some pointer-`NOTE` to nested-`NOTE` instead of `SNOTE`
+        - a note record is inlined only if exactly one pointer refers to it, it has a text payload, and its only substructures are `SOUR` citations without `NOTE` pointers
     - [x] add `SCHMA` for all used known extensions
         - [ ] add URIs (or standard tags) for all extensions from <https://wiki-de.genealogy.net/GEDCOM/_Nutzerdef-Tag> and <http://www.gencom.org.nz/GEDCOM_tags.html>
 
