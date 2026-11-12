@@ -60,7 +60,8 @@ Current status:
     - [x] update the `GEDC`.`VERS` to `7.0`
     - [x] (extra) change string-valued `INDI`.`ALIA` into `NAME` with `TYPE` `AKA`
     - [ ] (5.5) change base64-encoded OBJE into GEDZIP
-    - [ ] Change any illegal tag `XYZ` into `_EXT_XYZ`
+    - [x] Change any illegal tag `XYZ` into `_EXT_XYZ`
+        - checks the tag is a 7.0 tag, and that level-0 tags are record types, but not that each tag is allowed under its superstructure
 - two-pass operations
     - [ ] use heuristic to change some pointer-`NOTE` to nested-`NOTE` instead of `SNOTE`
     - [x] add `SCHMA` for all used known extensions

@@ -66,6 +66,9 @@
     <ClCompile Include="pipeline\exid.c">
       <Filter>Source Files\pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="pipeline\exttags.c">
+      <Filter>Source Files\pipeline</Filter>
+    </ClCompile>
     <ClCompile Include="pipeline\filenames.c">
       <Filter>Source Files\pipeline</Filter>
     </ClCompile>

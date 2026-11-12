@@ -40,6 +40,7 @@
 #include "exid.c"
 #include "rela2role.c"
 #include "version.c"
+#include "exttags.c"
 
 #include "event2record.c"
 // #include "noter2s.c" // unfinished
@@ -122,6 +123,9 @@ struct {
     // restrict anchors and pointers to allowed character set
     {{0, ged_fixid}, ged_fixidstate_maker, ged_fixidstate_freer},
     
+    // rename any remaining non-standard tag XYZ to _EXT_XYZ
+    {{0, ged_exttags}, ged_longstate_maker, ged_longstate_freer},
+
     // fix version number
     {{0, ged_version}, ged_longstate_maker, ged_longstate_freer},
 
