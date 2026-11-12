@@ -158,7 +158,7 @@ typedef void (*GedFilterFunc)(GedEvent *event, GedEmitterTemplate *emitter, void
  * a GedFilterFunc before the first invocation on a new dataset,
  * and the corresponding destructor callback.
  */
-typedef void *(*GedFilterStateMaker)();
+typedef void *(*GedFilterStateMaker)(void);
 typedef void (*GedFilterStateFreer)(void *);
 
 

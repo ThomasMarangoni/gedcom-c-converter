@@ -64,7 +64,7 @@ void ged_langtag(GedEvent *event, GedEmitterTemplate *emitter, void *rawstate) {
     emitter->emit(emitter, *event);
 }
 
-void *ged_langtagstate_maker() { 
+void *ged_langtagstate_maker(void) { 
     struct ged_langtagstate *ans = calloc(1, sizeof(struct ged_langtagstate));
     trie_put(&ans->lookup, "afrikaans", "af");
     trie_put(&ans->lookup, "albanian", "sq");

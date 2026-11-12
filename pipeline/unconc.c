@@ -30,5 +30,5 @@ void ged_unconc(GedEvent *event, GedEmitterTemplate *emitter, void *state) {
     emitter->emit(emitter, *event);
 }
 
-void *ged_longstate_maker() { return calloc(1, sizeof(long)); }
+void *ged_longstate_maker(void) { return calloc(1, sizeof(long)); }
 void ged_longstate_freer(void *state) { free(state); }

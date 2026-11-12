@@ -129,7 +129,7 @@ struct ged_event_stage ged_event_stage_stack_pop(struct ged_event_stage_stack *s
     return self->stack[self->top];
 }
 
-struct ged_event_stage_stack *ged_event_stage_stack_create() {
+struct ged_event_stage_stack *ged_event_stage_stack_create(void) {
     struct ged_event_stage_stack *ans = calloc(1, sizeof(struct ged_event_stage_stack));
     ans->emit = ged_event_stage_stack_emit;
     return ans;

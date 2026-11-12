@@ -25,7 +25,9 @@
 #ifdef __STDC_ALLOC_LIB__
 #define __STDC_WANT_LIB_EXT2__ 1
 #else
+#ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 200809L
+#endif
 #endif
 #include <string.h>
 #include <ctype.h>
@@ -193,7 +195,7 @@ void ged_addschma2(GedEvent *event, GedEmitterTemplate *emitter, void *rawstate)
 }
 
 
-void *ged_addschma_maker() { 
+void *ged_addschma_maker(void) { 
     struct ged_addschma_memory *ans = calloc(1, sizeof(struct ged_addschma_memory));
     
     ans->level = -1;

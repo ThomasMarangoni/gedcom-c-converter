@@ -117,7 +117,7 @@ void ged_noter2s2(GedEvent *event, GedEmitterTemplate *emitter, void *rawstate) 
 }
 
 
-void *ged_noter2s_maker() { 
+void *ged_noter2s_maker(void) { 
     return calloc(1, sizeof(struct ged_noter2s1_state));
 }
 

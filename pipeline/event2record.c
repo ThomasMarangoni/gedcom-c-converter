@@ -57,7 +57,7 @@ void ged_event2record(GedEvent *event, GedEmitterTemplate *emitter, void *rawsta
     }
 }
 
-void *ged_event2recordstate_maker() { 
+void *ged_event2recordstate_maker(void) { 
     return calloc(1, sizeof(struct ged_event2record_state));
     
 }

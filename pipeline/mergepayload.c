@@ -59,7 +59,7 @@ void ged_merge(GedEvent *event, GedEmitterTemplate *emitter, void *rawstate) {
     }
 }
 
-void *ged_mergestate_maker() { 
+void *ged_mergestate_maker(void) { 
     struct ged_mergestate *ans = calloc(1, sizeof(struct ged_mergestate));
     return ans;
 }
@@ -69,15 +69,13 @@ void ged_mergestate_freer(void *state) {
     free(state); 
 }
 
-#ifndef _GNU_SOURCE
 /**
- * Polyfill for strchrnull GNU extension
+ * Portable equivalent of the strchrnul GNU extension
  */
-char *strchrnul(char *s, char c) {
+static char *ged_strchrnul(char *s, char c) {
     while(*s && *s != c) s+=1;
     return s;
 }
-#endif
 
 /**
  * Turns "\n" into GED_LINEBREAK, potentially turning one GED_TEXT into any number of GED_TEXT and GED_LINEBREAK events.
@@ -94,7 +92,7 @@ void ged_unmerge(GedEvent *event, GedEmitterTemplate *emitter, void *rawstate) {
     if (event->type == GED_TEXT) {
         GedEvent tmp;
         char *strp = event->data;
-        char *nl = strchrnul(strp, '\n');
+        char *nl = ged_strchrnul(strp, '\n');
         if (*nl) {
             for(;;) {
                 size_t len = nl-strp;
@@ -113,7 +111,7 @@ void ged_unmerge(GedEvent *event, GedEmitterTemplate *emitter, void *rawstate) {
                     emitter->emit(emitter, tmp);
                 } else break;
                 strp = nl+1;
-                nl = strchrnul(strp, '\n');
+                nl = ged_strchrnul(strp, '\n');
             }
             ged_destroy_event(event);
             return;

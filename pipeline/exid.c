@@ -103,7 +103,7 @@ void ged_exid(GedEvent *event, GedEmitterTemplate *emitter, void *rawstate) {
 #undef GED_EXID_AFN
 
 
-void *ged_exidstate_maker() { 
+void *ged_exidstate_maker(void) { 
     struct ged_exidstate *ans = calloc(1, sizeof(struct ged_exidstate));
     return ans;
 }

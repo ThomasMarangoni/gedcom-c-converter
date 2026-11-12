@@ -59,7 +59,7 @@ void ged_fixid(GedEvent *event, GedEmitterTemplate *emitter, void *rawstate) {
     emitter->emit(emitter, *event);
 }
 
-void *ged_fixidstate_maker() { 
+void *ged_fixidstate_maker(void) { 
     trie *ans = calloc(1, sizeof(trie));
     return ans;
 }
